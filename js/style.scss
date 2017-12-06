@@ -1,0 +1,82 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.time-line__container {
+    width: 100%;
+    height: 500px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .time-line__background {
+        width: 80%;
+        height: 19px;
+        background: #122344;
+        border-radius: 5px;
+        .time-line__scale {
+            width: 100%;
+            height: 11px;
+            position: relative;
+            .time-line__progress {
+                width: 70%;
+                margin: 4px;
+                border-radius: 8px;
+                height: 11px;
+                background: #336084; /* Old browsers */
+                background: -moz-linear-gradient(left, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(left, #336084 0%,#80b9e5 39%,#e4f8ff 63%,#80b9e5 79%,#336084 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to right, #336084 0%,#80b9e5 39%,#e4f8ff 63%,#80b9e5 79%,#336084 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            }
+        }
+    }
+}
+
+.event__background {
+    width: 37px;
+    height: 37px;
+    position: absolute;
+    border-radius: 50%;
+    background: #122344;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -12px;
+    left: -10px;
+    .event__tooltip {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #6ecca5;
+        position: absolute;
+        top: -70px;
+        text-align: center;
+        display: none;
+        .event__tooltip--data {
+            height: 20px;
+            width: 100%;
+            border-bottom: 1px solid #6ecca5;
+        }
+        .event__tooltip--name {
+        }
+    }
+    &:hover {
+        .event__tooltip {
+            display: block;
+        }
+    }
+    .event__circle {
+        width: 29px;
+        height: 29px;
+        border-radius: 50%;
+        background: #122344;
+        color: white;
+        &:hover {
+            background: #6ecca5;
+            transition: 0.2s;
+        }
+
+    }
+}
