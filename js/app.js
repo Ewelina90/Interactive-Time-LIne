@@ -1,29 +1,31 @@
 document.addEventListener("DOMContentLoaded",function(){
 
     const data = [
-                    ['1.06.2015','Festiwal', 'fa-trophy'],
-                    ['11.06.2015','Festiwal', 'fa-heart'],
-                    ['15.06.2015','Festiwal', 'fa-graduation-cap'],
-                    ['22.06.2015','Festiwal', 'fa-flask'],
-                    ['30.06.2015','Festiwal', 'fa-gavel']
+                    ['1.06.2015','LOREM IPSUM DOLOR SIT', 'fa-trophy'],
+                    ['11.06.2015','LOREM IPSUM DOLOR SIT', 'fa-heart'],
+                    ['15.06.2015','LOREM IPSUM DOLOR SIT', 'fa-graduation-cap'],
+                    ['22.06.2015','LOREM IPSUM DOLOR SIT', 'fa-flask'],
+                    ['30.06.2015','LOREM IPSUM DOLOR SIT', 'fa-gavel']
                 ];
     const eventContener = document.querySelector('.time-line__scale');
     const numberOfDaysInMonth = 30; // June
     const today = 10;
+    const windowWidth = window.innerWidth;
 
-    // set length of a scale
-    eventContener.style.width = `${numberOfDaysInMonth*37}px`;
-    // set length of scale background
-    eventContener.parentNode.style.width = `${numberOfDaysInMonth*37}px`;
-    // set length of time-line progress
-    eventContener.firstElementChild.style.width = `${today*37 -18}px`;
+    if(windowWidth >= 1200){
+        // set length of a scale
+        eventContener.style.width = `${numberOfDaysInMonth*37}px`;
+        // set length of scale background
+        eventContener.parentNode.style.width = `${numberOfDaysInMonth*37}px`;
+        // set length of time-line progress
+        eventContener.firstElementChild.style.width = `${today*37 -18}px`;
+    }
 
     function createEvent(data, place){
         data.map((el,index) => {
-            console.log(el,index);
+
             // get number of day
             let dayNumber = getNumberOfDay(el[0]);
-
 
             // create elements
             let newEvent = document.createElement('div');
@@ -60,7 +62,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
     function calculatePosition(dayNumber, numberOfDaysInMonth, scale){
         const widthOfPiece = scale.clientWidth / numberOfDaysInMonth;
-        console.log(widthOfPiece);
 
         let position = 0;
 
@@ -71,7 +72,6 @@ document.addEventListener("DOMContentLoaded",function(){
             position = (widthOfPiece*dayNumber)-widthOfPiece-4;
         }
 
-        console.log(position);
         return `${position}px`;
     }
 
