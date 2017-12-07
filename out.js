@@ -75,36 +75,75 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    var data = [['2.06.2015', 'Festiwal', 'ikona'], ['11.06.2015', 'Festiwal', 'ikona'], ['15.06.2015', 'Festiwal', 'ikona'], ['22.06.2015', 'Festiwal', 'ikona'], ['30.06.2015', 'Festiwal', 'ikona']];
-    var eventContener = document.querySelector('.time-line__progress');
-    var lastPosition = -12;
+    var data = [['1.06.2015', 'Festiwal', 'fa-trophy'], ['11.06.2015', 'Festiwal', 'fa-heart'], ['15.06.2015', 'Festiwal', 'fa-graduation-cap'], ['22.06.2015', 'Festiwal', 'fa-flask'], ['30.06.2015', 'Festiwal', 'fa-gavel']];
+    var eventContener = document.querySelector('.time-line__scale');
+    var numberOfDaysInMonth = 30; // June
+    var today = 10;
+
+    // set length of a scale
+    eventContener.style.width = numberOfDaysInMonth * 37 + 'px';
+    // set length of scale background
+    eventContener.parentNode.style.width = numberOfDaysInMonth * 37 + 'px';
+    // set length of time-line progress
+    eventContener.firstElementChild.style.width = today * 37 - 18 + 'px';
 
     function createEvent(data, place) {
         data.map(function (el, index) {
             console.log(el, index);
+            // get number of day
+            var dayNumber = getNumberOfDay(el[0]);
+
+            // create elements
             var newEvent = document.createElement('div');
             newEvent.classList.add('event__background');
-            newEvent.style.left = calculatePosition(30, lastPosition, place);
+            // set position of event on timeline
+            newEvent.style.left = calculatePosition(dayNumber, numberOfDaysInMonth, place);
 
             var newEventCircle = document.createElement('div');
-            newEventCircle.classList.add('event__circle');
+            newEventCircle.classList.add(dayNumber <= today ? 'event__circle--finished' : 'event__circle');
 
+            var newEventIcon = document.createElement('i');
+            newEventIcon.classList.add('fa', el[2]);
+
+            var newEventTooltip = document.createElement('div');
+            newEventTooltip.classList.add('event__tooltip');
+
+            var newEventTooltipData = document.createElement('div');
+            newEventTooltipData.classList.add('event__tooltip--data');
+            newEventTooltipData.textContent = el[0];
+
+            var newEventTooltipName = document.createElement('div');
+            newEventTooltipName.classList.add('event__tooltip--name');
+            newEventTooltipName.textContent = el[1];
+
+            // append elements
+            newEventTooltip.appendChild(newEventTooltipData);
+            newEventTooltip.appendChild(newEventTooltipName);
+            newEventCircle.appendChild(newEventIcon);
             newEvent.appendChild(newEventCircle);
+            newEvent.appendChild(newEventTooltip);
             place.appendChild(newEvent);
-
-            lastPosition = lastPosition + 37;
         });
     }
 
-    function calculatePosition(numberOfDay, lastPosition, scale) {
-        var width = scale.clientWidth;
-        if (width < numberOfDays * 37) {
-            console.log('ok');
+    function calculatePosition(dayNumber, numberOfDaysInMonth, scale) {
+        var widthOfPiece = scale.clientWidth / numberOfDaysInMonth;
+        console.log(widthOfPiece);
+
+        var position = 0;
+
+        if (dayNumber === numberOfDaysInMonth) {
+            position = widthOfPiece * dayNumber - widthOfPiece + 4;
         } else {
-            console.log('za małe');
+            position = widthOfPiece * dayNumber - widthOfPiece - 4;
         }
-        var position = lastPosition + 18;
+
+        console.log(position);
         return position + 'px';
+    }
+
+    function getNumberOfDay(date) {
+        return parseInt(date.slice(0, date.indexOf('.')));
     }
 
     createEvent(data, eventContener);
@@ -150,7 +189,7 @@ exports = module.exports = __webpack_require__(3)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0;\n  width: 100%; }\n\n.time-line__container {\n  width: 100%;\n  height: 500px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .time-line__container .time-line__background {\n    width: 80%;\n    height: 19px;\n    background: #122344;\n    border-radius: 5px; }\n    .time-line__container .time-line__background .time-line__scale {\n      width: 100%;\n      height: 11px;\n      position: relative; }\n      .time-line__container .time-line__background .time-line__scale .time-line__progress {\n        width: 70%;\n        margin: 4px;\n        border-radius: 8px;\n        height: 11px;\n        background: #336084;\n        /* Old browsers */\n        background: -moz-linear-gradient(left, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* FF3.6-15 */\n        background: -webkit-linear-gradient(left, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* Chrome10-25,Safari5.1-6 */\n        background: linear-gradient(to right, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }\n\n.event__background {\n  width: 37px;\n  height: 37px;\n  position: absolute;\n  border-radius: 50%;\n  background: #122344;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  top: -12px;\n  left: -10px; }\n  .event__background .event__tooltip {\n    width: 50px;\n    height: 50px;\n    border: 1px solid #6ecca5;\n    position: absolute;\n    top: -70px;\n    text-align: center;\n    display: none; }\n    .event__background .event__tooltip .event__tooltip--data {\n      height: 20px;\n      width: 100%;\n      border-bottom: 1px solid #6ecca5; }\n  .event__background:hover .event__tooltip {\n    display: block; }\n  .event__background .event__circle {\n    width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background: #122344;\n    color: white; }\n    .event__background .event__circle:hover {\n      background: #6ecca5;\n      transition: 0.2s; }\n", ""]);
+exports.push([module.i, "body {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0;\n  width: 100%; }\n\n.time-line__container {\n  width: 100%;\n  height: 500px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  .time-line__container .time-line__background {\n    height: 19px;\n    background: #122344;\n    border-radius: 5px; }\n    .time-line__container .time-line__background .time-line__scale {\n      height: 11px;\n      position: relative; }\n      .time-line__container .time-line__background .time-line__scale .time-line__progress {\n        margin: 4px;\n        border-radius: 8px;\n        height: 11px;\n        background: #336084;\n        /* Old browsers */\n        background: -moz-linear-gradient(left, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* FF3.6-15 */\n        background: -webkit-linear-gradient(left, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* Chrome10-25,Safari5.1-6 */\n        background: linear-gradient(to right, #336084 0%, #80b9e5 39%, #e4f8ff 63%, #80b9e5 79%, #336084 100%);\n        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }\n\n.event__background {\n  width: 37px;\n  height: 37px;\n  position: absolute;\n  border-radius: 50%;\n  background: #122344;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  top: -12px;\n  left: -10px; }\n  .event__background .event__tooltip {\n    padding: 3px;\n    height: 50px;\n    border: 1px solid #6ecca5;\n    position: absolute;\n    top: -70px;\n    text-align: center;\n    display: none; }\n    .event__background .event__tooltip .event__tooltip--data {\n      height: 20px;\n      width: 100%;\n      border-bottom: 1px solid #6ecca5; }\n    .event__background .event__tooltip::after {\n      content: ' ';\n      display: block;\n      width: 8px;\n      height: 8px;\n      border-bottom: 1px solid #6ecca5;\n      border-left: 1px solid #6ecca5;\n      transform: rotate(-45deg);\n      transform-origin: center;\n      z-index: 10;\n      position: relative;\n      margin: 0 auto;\n      top: 10px;\n      background-color: white; }\n  .event__background:hover .event__tooltip {\n    display: block; }\n  .event__background .event__circle {\n    width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background: #122344;\n    color: white;\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n    .event__background .event__circle:hover {\n      background: #6ecca5;\n      transition: 0.2s; }\n  .event__background .event__circle--finished {\n    width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background: #acd4f1;\n    color: #122344;\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n    .event__background .event__circle--finished:hover {\n      background: #6ecca5;\n      transition: 0.2s; }\n", ""]);
 
 // exports
 
