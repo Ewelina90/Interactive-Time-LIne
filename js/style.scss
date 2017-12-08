@@ -14,7 +14,8 @@ body {
     .time-line__background {
         width: 100%;
         .time-line__scale {
-            width: 50%;
+            width: 70%;
+			min-width: 350px;
             margin: 0 auto;
             .time-line__progress {
                 width: 100%;
